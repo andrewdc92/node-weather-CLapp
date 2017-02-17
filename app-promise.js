@@ -25,13 +25,17 @@ const argv = yargs
 
     var lat = response.data.results[0].geometry.location.lat;
     var lng = response.data.results[0].geometry.location.lng;
+
     var weatherURL = `https://api.darksky.net/forecast/08c93be4c1a43cf465aa7e899e182399/${lat},${lng}`;
     console.log(response.data.results[0].formatted_address);
     return axios.get(weatherURL)
   }).then((response)=> {
+    var precipType = response.data.currently.precipType;
     var temperature = response.data.currently.temperature;
     var apparentTemperature = response.data.currently.apparentTemperature;
     console.log(`It's currently ${temperature}. It feels like ${apparentTemperature}`);
+    console.log(`The current precipitation is ${precipType}`);
+
   }).catch((e) => {
     if (e.code === 'ENOTFOUND') {
       console.log('unable to connect to API');
